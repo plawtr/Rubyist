@@ -1,31 +1,28 @@
-
+require 'bundler/setup'
 require 'time'
 require 'twilio-ruby'
-require 'twilio_credentials'
-
-
 
 
 
 class Takeaway
 	
-	include TwilioCredentials
-	
-	attr_reader :menu
+	attr_reader :menu, :twilio_client
 
 	def initialize(hash)
 		@menu = hash
+
+		# set up a client to talk to the Twilio REST API
+		@twilio_client = Twilio::REST::Client.new ENV['account_sid'], ENV['auth_token']
+
 	end
 
 	def place_order(order, total)
 		raise "Incorrect total." if @menu.inject(0){|amount, (dish, price)| amount+=price*order[dish]} != total
 		
-		authorize_Twilio
-		@client.account.messages.create(
+		@twilio_client.account.messages.create(
 	  :from => '+441986232027',
 	  :to => '+447767674238',
 	  :body => "Thank you! Your order was placed and will be delivered before #{(Time.now+60*60).strftime('%R')}")
-
 	end
 end
 
