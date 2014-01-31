@@ -26,7 +26,6 @@ class Takeaway
 	end
 
 	def to_s	
-		
 		"Menu".center(40)+"\n" + @menu.inject(""){|c, (dish, price)| c << dish.to_s.capitalize.ljust(34, '.')+("£"+ "%.2f" % price.to_s).rjust(6,'.')+"\n"}
 	end
 end
