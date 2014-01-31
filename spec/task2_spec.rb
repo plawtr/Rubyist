@@ -21,4 +21,10 @@ let(:incorrect_total) {5.00}
 		starbucks.twilio_client.account.messages.stub(:create).and_return("SMS sent!")
 		expect(starbucks.place_order(order, correct_total)).to eq("SMS sent!")
 	end	
+
+	it "should be able to print the menu" do
+		
+		expect(starbucks.to_s).to eq("Menu".center(40)+"\n"+ "Sandwhich..........................£3.60\nCola...............................£2.00\n")
+	end
+
 end
